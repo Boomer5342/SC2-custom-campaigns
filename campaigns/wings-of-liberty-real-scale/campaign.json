@@ -1,0 +1,43 @@
+{
+  "id": "wings-of-liberty-real-scale",
+  "name": "Wings of Liberty - Real Scale",
+  "description": "The Real-Scale Campaigns allow the player to enjoy the campaign in a more lore-accurate way. All units are scaled to more accurately reflect their canonical size, that means micro marines and mammoth ultralisks. Unit statistics are also changed to represent those new sizes, with thousands of HP and oodles of supply costs. All of these adjustments have culminated in an entirely different way of playing SC2, it may even feel like a whole different game at times.",
+  "author": {
+    "name": "Orcawarrior2",
+    "github": "",
+    "contact": ""
+  },
+  "campaign": "WoL",
+  "tags": ["realism", "visual-enhancement", "rebalanced", "challenging"],
+  "features": [
+    "Realistic unit scaling",
+    "Rebalanced difficulty"
+  ],
+  "icon": "icon.png",
+  "banner": "banner.png",
+  "screenshots": [
+    "screenshots/screenshot1.png",
+    "screenshots/screenshot2.png",
+    "screenshots/screenshot3.png"
+  ],
+  "currentVersion": "2.6.2",
+  "versions": [
+    {
+      "version": "1.0.0",
+      "releaseDate": "2025-10-01",
+      "downloadUrl": "versions/1.0.0/Real_Scale_WoL.zip",
+      "changelog": "versions/1.0.0/changelog.md"
+    },
+    {
+      "version": "2.6.2",
+      "releaseDate": "2026-01-15",
+      "downloadUrl": "versions/2.6.2/Real-Scale_WoL_v2.6.2.zip",
+      "changelog": "versions/2.6.2/changelog.md"
+    }
+  ],
+  "links": {
+    "homepage": "https://example.com/my-mod",
+    "discord": "https://discord.gg/example",
+    "donate": "https://ko-fi.com/modder"
+  }
+}
