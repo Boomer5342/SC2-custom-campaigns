@@ -13,12 +13,11 @@
     "Realistic unit scaling",
     "Rebalanced difficulty"
   ],
-  "icon": "icon.png",
-  "banner": "banner.png",
+  "icon": "images/icon.jpg",
+  "banner": "images/banner.png",
   "screenshots": [
-    "screenshots/screenshot1.png",
-    "screenshots/screenshot2.png",
-    "screenshots/screenshot3.png"
+    "images/screenshots/screenshot1.png",
+    "screenshots/screenshot2.png"
   ],
   "currentVersion": "2.6.2",
   "versions": [
