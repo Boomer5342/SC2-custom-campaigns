@@ -8,16 +8,15 @@
     "contact": ""
   },
   "campaign": "WoL",
-  "tags": ["realism", "visual-enhancement", "rebalanced", "challenging"],
+  "tags": [
+    "realism",
+    "visual-enhancement",
+    "rebalanced",
+    "challenging"
+  ],
   "features": [
     "Realistic unit scaling",
     "Rebalanced difficulty"
-  ],
-  "icon": "images/icon.jpg",
-  "banner": "images/banner.jpg",
-  "screenshots": [
-    "images/screenshots/screenshot1.png",
-    "images/screenshots/screenshot2.png"
   ],
   "currentVersion": "2.6.2",
   "versions": [
