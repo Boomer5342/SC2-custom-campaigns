@@ -2,17 +2,17 @@
   "version": "1.0",
   "campaigns": [
     {
+      "id": "heart-of-the-swarm-real-scale",
+      "name": "Heart of the Swarm - Real Scale",
+      "author": "Orcawarrior2",
+      "campaign": "HotS",
+      "latestVersion": "2.6.2"
+    },
+    {
       "id": "wings-of-liberty-real-scale",
       "name": "Wings of Liberty - Real Scale",
       "author": "Orcawarrior2",
       "campaign": "WoL",
-      "latestVersion": "2.6.2"
-    },
-    {
-      "id": "heart-of-th-swarm-real-scale",
-      "name": "Heart of the Swarm - Real Scale",
-      "author": "Orcawarrior2",
-      "campaign": "HotS",
       "latestVersion": "2.6.2",
       "iconUrl": "images/icon/icon.jpg"
     }
