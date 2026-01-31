@@ -40,7 +40,7 @@ jobs:
                   
               campaign_json_path = campaign_folder / "campaign.json"
               if not campaign_json_path.exists():
-                  print(f"⚠️  Skipping {campaign_folder.name}: No campaign.json found")
+                  print(f"Skipping {campaign_folder.name}: No campaign.json found")
                   continue
               
               try:
@@ -49,7 +49,7 @@ jobs:
                   
                   campaign_id = data.get("id")
                   if not campaign_id:
-                      print(f"⚠️  Skipping {campaign_folder.name}: No 'id' field in campaign.json")
+                      print(f"Skipping {campaign_folder.name}: No 'id' field in campaign.json")
                       continue
                   
                   # Discover icon URL
@@ -74,9 +74,9 @@ jobs:
                               icon_url = f"images/icon/{icon_files[0].name}"
                               print(f"✓ {campaign_id}: Auto-discovered icon: {icon_url}")
                           else:
-                              print(f"⚠️  {campaign_id}: No icon found in /images/icon/ folder")
+                              print(f"{campaign_id}: No icon found in /images/icon/ folder")
                       else:
-                          print(f"⚠️  {campaign_id}: No /images/icon/ folder found")
+                          print(f"{campaign_id}: No /images/icon/ folder found")
                   
                   # Build registry entry
                   registry_entry = {
@@ -92,12 +92,12 @@ jobs:
                       registry_entry["iconUrl"] = icon_url
                   
                   campaigns.append(registry_entry)
-                  print(f"✅ Added: {campaign_id} v{registry_entry['latestVersion']}")
+                  print(f"Added: {campaign_id} v{registry_entry['latestVersion']}")
                   
               except json.JSONDecodeError as e:
-                  print(f"❌ Error parsing {campaign_folder.name}/campaign.json: {e}")
+                  print(f"Error parsing {campaign_folder.name}/campaign.json: {e}")
               except Exception as e:
-                  print(f"❌ Error processing {campaign_folder.name}: {e}")
+                  print(f"Error processing {campaign_folder.name}: {e}")
           
           # Generate registry
           registry = {
@@ -109,7 +109,7 @@ jobs:
           with open("registry.json", 'w', encoding='utf-8') as f:
               json.dump(registry, f, indent=2, ensure_ascii=False)
           
-          print(f"\n🎉 Registry generated with {len(campaigns)} campaigns")
+          print(f"\nRegistry generated with {len(campaigns)} campaigns")
           PYEOF
           
       - name: Commit and push registry.json
@@ -122,9 +122,9 @@ jobs:
           
           # Check if there are changes to commit
           if git diff --staged --quiet; then
-            echo "ℹ️  No changes to registry.json"
+            echo "No changes to registry.json"
           else
-            git commit -m "🤖 Auto-generate registry.json [skip ci]"
+            git commit -m "Auto-generate registry.json [skip ci]"
             git push
-            echo "✅ Registry updated and pushed"
+            echo "Registry updated and pushed"
           fi
