@@ -23,8 +23,8 @@
     {
       "version": "1.0.0",
       "releaseDate": "2025-10-01",
-      "downloadUrl": "versions/1.0.0/Real_Scale_WoL.zip",
-      "changelog": "versions/1.0.0/changelog.md"
+      "downloadUrl": "Real_Scale_WoL.zip",
+      "changelog": "changelog.md"
     },
     {
       "version": "2.6.2",
