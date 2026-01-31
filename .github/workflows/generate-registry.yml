@@ -1,0 +1,128 @@
+name: Generate Campaign Registry
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'campaigns/**'
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  generate-registry:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          
+      - name: Generate registry.json
+        run: |
+          python3 << 'EOF'
+          import json
+          import os
+          from pathlib import Path
+          
+          campaigns_dir = Path("campaigns")
+          campaigns = []
+          
+          # Scan all campaign folders
+          for campaign_folder in sorted(campaigns_dir.iterdir()):
+              if not campaign_folder.is_dir():
+                  continue
+                  
+              campaign_json_path = campaign_folder / "campaign.json"
+              if not campaign_json_path.exists():
+                  print(f"⚠️  Skipping {campaign_folder.name}: No campaign.json found")
+                  continue
+              
+              try:
+                  with open(campaign_json_path, 'r', encoding='utf-8') as f:
+                      data = json.load(f)
+                  
+                  campaign_id = data.get("id")
+                  if not campaign_id:
+                      print(f"⚠️  Skipping {campaign_folder.name}: No 'id' field in campaign.json")
+                      continue
+                  
+                  # Discover icon URL
+                  icon_url = None
+                  
+                  # Strategy 1: Use explicit icon field from campaign.json
+                  if "icon" in data and data["icon"]:
+                      icon_url = f"images/icon/{data['icon']}" if not data['icon'].startswith('images/') else data['icon']
+                      print(f"✓ {campaign_id}: Using explicit icon: {icon_url}")
+                  
+                  # Strategy 2: Auto-discover from /images/icon/ folder
+                  else:
+                      icon_folder = campaign_folder / "images" / "icon"
+                      if icon_folder.exists() and icon_folder.is_dir():
+                          # Find first image file (alphabetically)
+                          icon_files = sorted([
+                              f for f in icon_folder.iterdir()
+                              if f.is_file() and f.suffix.lower() in ['.png', '.jpg', '.jpeg']
+                          ])
+                          
+                          if icon_files:
+                              icon_url = f"images/icon/{icon_files[0].name}"
+                              print(f"✓ {campaign_id}: Auto-discovered icon: {icon_url}")
+                          else:
+                              print(f"⚠️  {campaign_id}: No icon found in /images/icon/ folder")
+                      else:
+                          print(f"⚠️  {campaign_id}: No /images/icon/ folder found")
+                  
+                  # Build registry entry
+                  registry_entry = {
+                      "id": campaign_id,
+                      "name": data.get("name", "Unknown Campaign"),
+                      "author": data.get("author", {}).get("name", "Unknown") if isinstance(data.get("author"), dict) else str(data.get("author", "Unknown")),
+                      "campaign": data.get("campaign", "Unknown"),
+                      "latestVersion": data.get("currentVersion", "1.0.0"),
+                  }
+                  
+                  # Only add iconUrl if we found one
+                  if icon_url:
+                      registry_entry["iconUrl"] = icon_url
+                  
+                  campaigns.append(registry_entry)
+                  print(f"✅ Added: {campaign_id} v{registry_entry['latestVersion']}")
+                  
+              except json.JSONDecodeError as e:
+                  print(f"❌ Error parsing {campaign_folder.name}/campaign.json: {e}")
+              except Exception as e:
+                  print(f"❌ Error processing {campaign_folder.name}: {e}")
+          
+          # Generate registry
+          registry = {
+              "version": "1.0",
+              "campaigns": campaigns
+          }
+          
+          # Write registry.json
+          with open("registry.json", 'w', encoding='utf-8') as f:
+              json.dump(registry, f, indent=2, ensure_ascii=False)
+          
+          print(f"\n🎉 Registry generated with {len(campaigns)} campaigns")
+          EOF
+          
+      - name: Commit and push registry.json
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          # Check if registry.json changed
+          if git diff --quiet registry.json; then
+            echo "No changes to registry.json"
+          else
+            git add registry.json
+            git commit -m "🤖 Auto-generate registry.json [skip ci]"
+            git push
+            echo "✅ Registry updated and pushed"
+          fi
