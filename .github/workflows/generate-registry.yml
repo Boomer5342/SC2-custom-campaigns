@@ -25,7 +25,7 @@ jobs:
           
       - name: Generate registry.json
         run: |
-          python3 << 'EOF'
+          python3 << 'PYEOF'
           import json
           import os
           from pathlib import Path
@@ -110,18 +110,20 @@ jobs:
               json.dump(registry, f, indent=2, ensure_ascii=False)
           
           print(f"\n🎉 Registry generated with {len(campaigns)} campaigns")
-          EOF
+          PYEOF
           
       - name: Commit and push registry.json
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           
-          # Check if registry.json changed
-          if git diff --quiet registry.json; then
-            echo "No changes to registry.json"
+          # Add the file regardless of whether it exists
+          git add registry.json
+          
+          # Check if there are changes to commit
+          if git diff --staged --quiet; then
+            echo "ℹ️  No changes to registry.json"
           else
-            git add registry.json
             git commit -m "🤖 Auto-generate registry.json [skip ci]"
             git push
             echo "✅ Registry updated and pushed"
