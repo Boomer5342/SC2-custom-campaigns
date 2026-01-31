@@ -1,13 +1,13 @@
 {
-  "id": "wings-of-liberty-real-scale",
-  "name": "Wings of Liberty - Real Scale",
+  "id": "heart-of-the-swarm-real-scale",
+  "name": "Heart of the Swarm - Real Scale",
   "description": "The Real-Scale Campaigns allow the player to enjoy the campaign in a more lore-accurate way. All units are scaled to more accurately reflect their canonical size, that means micro marines and mammoth ultralisks. Unit statistics are also changed to represent those new sizes, with thousands of HP and oodles of supply costs. \n\nAll of these adjustments have culminated in an entirely different way of playing SC2, it may even feel like a whole different game at times.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTESTING AREA FOR EXPANSON\n\n\n\nThe Real-Scale Campaigns allow the player to enjoy the campaign in a more lore-accurate way. All units are scaled to more accurately reflect their canonical size, that means micro marines and mammoth ultralisks. Unit statistics are also changed to represent those new sizes, with thousands of HP and oodles of supply costs. The Real-Scale Campaigns allow the player to enjoy the campaign in a more lore-accurate way. All units are scaled to more accurately reflect their canonical size, that means micro marines and mammoth ultralisks. Unit statistics are also changed to represent those new sizes, with thousands of HP and oodles of supply costs. The Real-Scale Campaigns allow the player to enjoy the campaign in a more lore-accurate way. All units are scaled to more accurately reflect their canonical size, that means micro marines and mammoth ultralisks. Unit statistics are also changed to represent those new sizes, with thousands of HP and oodles of supply costs. The Real-Scale Campaigns allow the player to enjoy the campaign in a more lore-accurate way. All units are scaled to more accurately reflect their canonical size, that means micro marines and mammoth ultralisks. Unit statistics are also changed to represent those new sizes, with thousands of HP and oodles of supply costs. The Real-Scale Campaigns allow the player to enjoy the campaign in a more lore-accurate way. All units are scaled to more accurately reflect their canonical size, that means micro marines and mammoth ultralisks. Unit statistics are also changed to represent those new sizes, with thousands of HP and oodles of supply costs. ",
   "author": {
     "name": "Orcawarrior2",
     "github": "",
     "contact": ""
   },
-  "campaign": "WoL",
+  "campaign": "HotS",
   "tags": [
     "realism",
     "visual-enhancement",
@@ -21,15 +21,9 @@
   "currentVersion": "2.6.2",
   "versions": [
     {
-      "version": "1.0.0",
-      "releaseDate": "2025-10-01",
-      "downloadUrl": "Real_Scale_WoL.zip",
-      "changelog": "changelog.md"
-    },
-    {
       "version": "2.6.2",
       "releaseDate": "2026-01-15",
-      "downloadUrl": "Real-Scale_WoL_v2.6.2.zip",
+      "downloadUrl": "Real-Scale_HotS_v2.6.2.zip",
       "changelog": "changelog.md"
     }
   ],
