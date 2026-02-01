@@ -55,28 +55,34 @@ jobs:
                   # Discover icon URL
                   icon_url = None
                   
-                  # Strategy 1: Use explicit icon field from campaign.json
+                  # Strategy 1: Check if icon field exists in campaign.json
                   if "icon" in data and data["icon"]:
-                      icon_url = f"images/icon/{data['icon']}" if not data['icon'].startswith('images/') else data['icon']
-                      print(f"✓ {campaign_id}: Using explicit icon: {icon_url}")
+                      # If icon starts with "images/", use as-is; otherwise prepend it
+                      if data['icon'].startswith('images/'):
+                          icon_url = data['icon']
+                      else:
+                          icon_url = f"images/icon/{data['icon']}"
+                      print(f"✓ {campaign_id}: Using explicit icon from campaign.json: {icon_url}")
                   
                   # Strategy 2: Auto-discover from /images/icon/ folder
-                  else:
+                  if not icon_url:
                       icon_folder = campaign_folder / "images" / "icon"
                       if icon_folder.exists() and icon_folder.is_dir():
-                          # Find first image file (alphabetically)
-                          icon_files = sorted([
-                              f for f in icon_folder.iterdir()
-                              if f.is_file() and f.suffix.lower() in ['.png', '.jpg', '.jpeg']
-                          ])
+                          # Find first image file (prioritize .jpg, then .png, then .jpeg)
+                          icon_files = []
+                          for ext in ['.jpg', '.png', '.jpeg', '.webp', '.svg']:
+                              icon_files.extend(sorted([
+                                  f for f in icon_folder.iterdir()
+                                  if f.is_file() and f.suffix.lower() == ext
+                              ]))
                           
                           if icon_files:
                               icon_url = f"images/icon/{icon_files[0].name}"
                               print(f"✓ {campaign_id}: Auto-discovered icon: {icon_url}")
                           else:
-                              print(f"{campaign_id}: No icon found in /images/icon/ folder")
+                              print(f"⚠ {campaign_id}: No icon files found in /images/icon/ folder")
                       else:
-                          print(f"{campaign_id}: No /images/icon/ folder found")
+                          print(f"⚠ {campaign_id}: No /images/icon/ folder found")
                   
                   # Build registry entry
                   registry_entry = {
@@ -90,6 +96,8 @@ jobs:
                   # Only add iconUrl if we found one
                   if icon_url:
                       registry_entry["iconUrl"] = icon_url
+                  else:
+                      print(f"⚠ {campaign_id}: No icon found, will use fallback in app")
                   
                   campaigns.append(registry_entry)
                   print(f"Added: {campaign_id} v{registry_entry['latestVersion']}")
@@ -109,7 +117,7 @@ jobs:
           with open("registry.json", 'w', encoding='utf-8') as f:
               json.dump(registry, f, indent=2, ensure_ascii=False)
           
-          print(f"\nRegistry generated with {len(campaigns)} campaigns")
+          print(f"\n✓ Registry generated with {len(campaigns)} campaigns")
           PYEOF
           
       - name: Commit and push registry.json
@@ -126,5 +134,5 @@ jobs:
           else
             git commit -m "Auto-generate registry.json [skip ci]"
             git push
-            echo "Registry updated and pushed"
+            echo "✓ Registry updated and pushed"
           fi
